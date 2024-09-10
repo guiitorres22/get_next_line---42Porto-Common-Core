@@ -1,6 +1,5 @@
-// get_next_line_utils.c
-#include <stdio.h>
-// Função que retorna o comprimento da string
+#include "get_next_line.h"
+
 size_t ft_strlen(const char *str)
 {
     size_t  i;
@@ -11,7 +10,7 @@ size_t ft_strlen(const char *str)
     return (i);
 }
 
-// Função que duplica uma string
+
 char *ft_strdup(const char *s) 
 {
     char    *dst;
@@ -32,7 +31,7 @@ char *ft_strdup(const char *s)
     return (dst);
 }
 
-// Função que concatena duas strings
+
 char *ft_strjoin(char *s1, char *s2) 
 {
     char    *nstr;
@@ -70,7 +69,7 @@ char *ft_strjoin(char *s1, char *s2)
     return (nstr);
 }
 
-// Função que procura por um caractere em uma string
+
 char *ft_strchr(const char *s, int c)
 {
     size_t	i;
@@ -87,4 +86,25 @@ char *ft_strchr(const char *s, int c)
     if ((char)c == '\0')
 	return ((char *)(s + i));
     return (NULL);
+}
+
+
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*p;
+	size_t	i;
+
+	p = malloc(nmemb * size);
+	if (!p)
+	{
+		return (NULL);
+	}
+	i = 0;
+	while (i < (nmemb * size))
+	{
+		((char *)p)[i] = 0;
+		i++;
+	}
+	return (p);
 }

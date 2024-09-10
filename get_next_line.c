@@ -54,7 +54,7 @@ char	*new_line(char *line)
    return(n_line);
 }
 
-char	*read_and_join(int fd, *line)
+char	*read_and_join(int fd, char *line)
 {
     char    *buffer;
     int	byte_read;
@@ -105,15 +105,37 @@ char *get_next_line(int fd)
     line =  new_line(line);
     return(line_to_return);    
 }
-/*
-falta corrigir e testar o read_and_join
-falta subir o ft_calloc pra usar minha propria função...
-falta realizar os testes completos para ver se esta rodando
+
+int main(void)
+{
+	char *line;
+	int i;
+	int file;
+
+	file = open("test.txt", O_RDONLY);
+	if (file == -1) {
+		perror("Error opening file");
+		return (1);
+	}
+	i = 1;
+	printf("buffer size > %d\n", BUFFER_SIZE);
+	line = get_next_line(file);
+	while (line != 0)
+	{
+		printf("line [%02d]:%s\n", i, line);
+		free(line);
+		line = get_next_line(file);
+		i++;
+	}
+	close(file);
+	return (0);
+}
 
 
-*/
 
-/* int main(void)
+
+
+ /*int main(void)
 {
 	char *line;
 	int i;
@@ -136,14 +158,15 @@ falta realizar os testes completos para ver se esta rodando
 	}
 	close(fd1);
 	return (0);
-} */
-/* int main() {
+} 
+int main() 
+{
     char *filename;
     char *line;
     int fd;
 
     // Test 1
-    filename = "test1.txt";
+    filename = "test.txt";
     fd = open(filename, O_RDONLY);
     if (fd == -1) {
         perror("Error opening file");
@@ -156,6 +179,7 @@ falta realizar os testes completos para ver se esta rodando
     }
     close(fd);
     printf("\n");
+}
 
     // Test 2
     filename = "test2.txt";
