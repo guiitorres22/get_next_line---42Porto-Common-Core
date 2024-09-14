@@ -61,7 +61,7 @@ char	*new_line(char *line)
 	i++;
 	while (line[i])
 		n_line[j++] = line[i++];
-	n_line[i] = '\0';
+	n_line[j] = '\0';
 	free(line);
 	return (n_line);
 }
@@ -71,24 +71,27 @@ char	*read_and_join(int fd, char *line)
 	char	*buffer;
 	int		byte_read;
 
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	buffer = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
 	if (!buffer)
 		return (NULL);
-	byte_read = read(fd, buffer, BUFFER_SIZE);
-	while (byte_read > 0)
+	if (!line)
+		line = ft_strdup("");
+	byte_read = 1;
+	while (!ft_strchr(line, '\n') && byte_read != 0)
 	{
-		if (!line)
-			line = ft_strdup("");
+		byte_read = read(fd, buffer, BUFFER_SIZE);
+		if (byte_read < 0)
+		{
+			free(buffer);
+			free(line);
+			return (NULL);
+		}
+		buffer[byte_read] = '\0';
+//		if (!line)
+//			line = ft_strdup("");
 		line = ft_strjoin(line, buffer);
 		if (ft_strchr(line, '\n'))
 			break ;
-		byte_read = read(fd, buffer, BUFFER_SIZE);
-	}
-	if (byte_read < 0)
-	{
-		free(buffer);
-		free(line);
-		return (NULL);
 	}
 	free (buffer);
 	return (line);
