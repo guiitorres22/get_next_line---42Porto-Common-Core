@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gtinani- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gtinani- <gtinani-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:54:47 by gtinani-          #+#    #+#             */
-/*   Updated: 2024/09/10 18:37:24 by gtinani-         ###   ########.fr       */
+/*   Updated: 2024/09/19 21:02:31 by gtinani-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ char	*extract_line(char *line)
 	char	*n_line;
 
 	i = 0;
+	if (!line[i])
+		return (NULL);
 	while (line[i] && line[i] != '\n')
 		i++;
-	if (line[i] == '\n')
-		i++;
-	n_line = (char *)ft_calloc((i + 1), sizeof(char));
+	n_line = (char *)malloc(sizeof(char) * (i + 2));
 	if (!n_line)
 		return (NULL);
 	i = 0;
@@ -50,12 +50,12 @@ char	*new_line(char *line)
 	j = 0;
 	while (line && line[i] && line[i] != '\n')
 		i++;
-	if (line[i] == '\0')
+	if (!line[i])
 	{
 		free(line);
 		return (NULL);
 	}
-	n_line = ft_calloc((ft_strlen(line) - i + 1), sizeof(char));
+	n_line = (char *)malloc((ft_strlen(line) - i + 1) * sizeof(char));
 	if (!n_line)
 		return (NULL);
 	i++;
@@ -71,27 +71,20 @@ char	*read_and_join(int fd, char *line)
 	char	*buffer;
 	int		byte_read;
 
-	buffer = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
-	if (!line)
-		line = ft_strdup("");
 	byte_read = 1;
 	while (!ft_strchr(line, '\n') && byte_read != 0)
 	{
 		byte_read = read(fd, buffer, BUFFER_SIZE);
-		if (byte_read < 0)
+		if (byte_read == -1)
 		{
 			free(buffer);
-			free(line);
 			return (NULL);
 		}
 		buffer[byte_read] = '\0';
-//		if (!line)
-//			line = ft_strdup("");
 		line = ft_strjoin(line, buffer);
-		if (ft_strchr(line, '\n'))
-			break ;
 	}
 	free (buffer);
 	return (line);
@@ -104,16 +97,22 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!line)
-		line = ft_strdup("");
 	line = read_and_join(fd, line);
-	if (!line || line[0] == '\0')
+	if (!line)
+		return (NULL);
+	if (line[0] == '\0')
 	{
 		free(line);
 		line = NULL;
 		return (NULL);
 	}
 	line_to_return = extract_line(line);
+	if (!line_to_return)
+	{
+		free(line);
+		line = NULL;
+		return (NULL);
+	}
 	line = new_line(line);
 	return (line_to_return);
 }
