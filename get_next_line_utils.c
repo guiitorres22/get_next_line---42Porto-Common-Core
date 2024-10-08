@@ -6,7 +6,7 @@
 /*   By: gtinani- <gtinani-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:55:53 by gtinani-          #+#    #+#             */
-/*   Updated: 2024/09/19 21:03:46 by gtinani-         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:02:28 by gtinani-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,43 +22,6 @@ size_t	ft_strlen(const char *str)
 	while (str[i] != '\0')
 		i++;
 	return (i);
-}
-
-char	*ft_strdup(const char *s)
-{
-	char	*dst;
-	size_t	i;
-
-	dst = (char *)malloc(sizeof(char) * (ft_strlen((char *)s)) + 1);
-	if (!dst)
-		return (NULL);
-	i = 0;
-	while (s[i] != '\0')
-	{
-		dst[i] = s[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (dst);
-}
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void	*p;
-	size_t	i;
-
-	p = malloc(nmemb * size);
-	if (!p)
-	{
-		return (NULL);
-	}
-	i = 0;
-	while (i < (nmemb * size))
-	{
-		((char *)p)[i] = 0;
-		i++;
-	}
-	return (p);
 }
 
 char	*ft_strjoin(char *s1, char *s2)

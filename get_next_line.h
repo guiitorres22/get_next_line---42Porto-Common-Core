@@ -6,7 +6,7 @@
 /*   By: gtinani- <gtinani-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:56:30 by gtinani-          #+#    #+#             */
-/*   Updated: 2024/09/19 20:08:57 by gtinani-         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:02:36 by gtinani-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@
 
 char	*get_next_line(int fd);
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strdup(const char *s);
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);
-void	*ft_calloc(size_t nmemb, size_t size);
 
 #endif
